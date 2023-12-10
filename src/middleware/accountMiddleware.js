@@ -1,41 +1,32 @@
 const { verifyToken } = require('../services/auth.services');
 
 const decodeFirebaseToken = async (req, res, next) => {
-  let token = req.headers?.token;
-
-  if (!token) {
-    token = req.body.accessToken;
+  if (req.headers.token) {
+    const token = req.headers?.token;
+    try {
+      const { name, picture, email, exp } = await verifyToken(token);
+      req.userData = {
+        name,
+        picture,
+        email,
+        token,
+        tokenExp: exp,
+      };
+      req.uid = email;
+      req.editor = true;
+      return next();
+    } catch (error) {
+      // res.clearCookie('token', {
+      //   httpOnly: true,
+      //   sameSite: 'none',
+      //   secure: true,
+      // });
+      return res.status(400).json({ success: false, data: error });
+    }
   }
-
-  try {
-    const {
-      name, picture, email, exp,
-    } = await verifyToken(token);
-    console.log('line 17');
-    req.userData = {
-      name,
-      picture,
-      email,
-      token: req.body.accessToken.split(' ')[1],
-      tokenExp: exp,
-    };
-    console.log(
-      '🚀 ~ file: accountMiddleware.js:11 ~ decodeFirebaseToken ~ req.userData:',
-      req.userData,
-    );
-    next();
-  } catch (error) {
-    console.log(
-      '🚀 ~ file: accountMiddleware.js:31 ~ decodeFirebaseToken ~ error:',
-      error,
-    );
-    res.clearCookie('token', {
-      httpOnly: true,
-      sameSite: 'none',
-      secure: true,
-    });
-    res.status(400).json({ success: false, data: error });
-  }
+  req.uid = req.headers.subdomain;
+  req.editor = false;
+  return next();
 };
 
 module.exports = { decodeFirebaseToken };

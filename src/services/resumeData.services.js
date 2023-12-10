@@ -18,11 +18,17 @@ const getAllData = async ({ email, subDomain }) => {
   return null;
 };
 
+//
+const bindSubdomain = async ({ email, subdomain }) =>
+  ResumeDataSchema.findOneAndUpdate(
+    { email },
+    { $set: { subDomain: subdomain } },
+  );
+
 const allDataToDb = async (
   email,
   {
     name,
-    subDomain,
     title,
     connection1Icon,
     connection1Label,
@@ -37,7 +43,6 @@ const allDataToDb = async (
     {
       $set: {
         name,
-        subDomain,
         title,
         connection1Icon,
         connection1Label,
@@ -49,4 +54,4 @@ const allDataToDb = async (
     },
   );
 
-module.exports = { addUserToDb, getAllData, allDataToDb };
+module.exports = { addUserToDb, getAllData, allDataToDb, bindSubdomain };
