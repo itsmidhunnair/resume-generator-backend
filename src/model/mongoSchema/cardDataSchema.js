@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ResumeDataSchema = new mongoose.Schema({
+const CardDataSchema = new mongoose.Schema({
   name: {
     required: true,
     type: String,
@@ -10,6 +10,10 @@ const ResumeDataSchema = new mongoose.Schema({
     type: String,
     index: { unique: true },
   },
+  img: {
+    required: true,
+    type: String,
+  },
   subDomain: {
     type: String,
     unique: true,
@@ -17,24 +21,24 @@ const ResumeDataSchema = new mongoose.Schema({
   title: {
     type: String,
   },
-  connection1Icon: {
+  key1: {
     type: String,
   },
-  connection1Label: {
+  value1: {
     type: String,
   },
-  connection1Link: {
+  key2: {
     type: String,
   },
-  connection2Icon: {
+  value2: {
     type: String,
   },
-  connection2Label: {
+  connectLabel: {
     type: String,
   },
-  connection2Link: {
+  connectLink: {
     type: String,
   },
 });
 
-module.exports = mongoose.model('ResumeData', ResumeDataSchema);
+module.exports = mongoose.model('card-data', CardDataSchema);

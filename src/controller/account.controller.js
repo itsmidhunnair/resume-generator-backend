@@ -1,10 +1,10 @@
 const { SUBDOMAIN_MISSING } = require('../constant/errorCodes');
-const { addUserToDb, getAllData } = require('../services/resumeData.services');
+const { addUserToDb, getAllData } = require('../services/cardData.services');
 
 const addNewUser = async (req, res) => {
-  const { name, email, token, tokenExp } = req.userData;
+  const { name, email, token, tokenExp, picture } = req.userData;
   try {
-    await addUserToDb({ name, email });
+    await addUserToDb({ name, email, picture });
     // res.cookie('token', token, {
     //   httpOnly: true,
     //   sameSite: 'none',

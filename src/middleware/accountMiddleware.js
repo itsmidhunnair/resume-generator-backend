@@ -12,6 +12,7 @@ const decodeFirebaseToken = async (req, res, next) => {
         token,
         tokenExp: exp,
       };
+
       req.uid = email;
       req.editor = true;
       return next();

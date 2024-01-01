@@ -4,7 +4,8 @@ const {
   getAllData,
   allDataToDb,
   bindSubdomain,
-} = require('../services/resumeData.services');
+} = require('../services/cardData.services');
+const { filterObjects } = require('../helpers');
 
 const cloudflareHeader = {
   'Content-Type': 'application/json',
@@ -22,7 +23,7 @@ const getUserData = async (req, res) => {
     }
     res.status(200).json({ success: true, data });
   } catch (error) {
-    res.status(500).json({ success: false, data: error });
+    res.status(error?.code || 500).json(error);
   }
 };
 
@@ -69,11 +70,6 @@ const validateDomain = async (req, res) => {
 
 const addSubdomain = async (req, res) => {
   const { body, uid } = req;
-  console.log(
-    '🚀 ~ file: resume.controller.js:72 ~ addSubdomain ~ body, uid:',
-    body,
-    uid,
-  );
   try {
     await axios.post(
       CLOUDFLARE_DNS_PATH,
@@ -92,9 +88,12 @@ const addSubdomain = async (req, res) => {
       email: uid,
       subdomain: body.subdomain,
     });
-    res
-      .status(201)
-      .json({ msg: 'Subdomain Added', success: true, data: dbRes });
+    res.status(201).json({
+      msg: 'Subdomain Added',
+      success: true,
+      data: dbRes,
+      newUser: false,
+    });
   } catch (error) {
     res
       .status(500)

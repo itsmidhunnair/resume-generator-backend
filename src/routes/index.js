@@ -1,6 +1,6 @@
 const express = require('express');
 const accountRouter = require('./account.route');
-const resumeRouter = require('./resume.route');
+const cardRouter = require('./card.route');
 
 const router = express.Router();
 
@@ -13,6 +13,6 @@ router.get(
   // eslint-disable-next-line function-paren-newline
 );
 router.use('/account', accountRouter);
-router.use('/resume', resumeRouter);
+router.use('/resume', cardRouter);
 
 module.exports = router;
