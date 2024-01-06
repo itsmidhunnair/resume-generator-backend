@@ -2,7 +2,7 @@ const { SUBDOMAIN_MISSING } = require('../constant/errorCodes');
 const { addUserToDb, getAllData } = require('../services/cardData.services');
 
 const addNewUser = async (req, res) => {
-  const { name, email, token, tokenExp, picture } = req.userData;
+  const { name, email, picture } = req.userData;
   try {
     await addUserToDb({ name, email, picture });
     // res.cookie('token', token, {
@@ -33,7 +33,7 @@ const addNewUser = async (req, res) => {
         data: { msg: 'User already Present', newUser: false },
       });
     }
-    res.status(500).json({ success: false, data: error });
+    return res.status(500).json({ success: false, data: error });
   }
 };
 

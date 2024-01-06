@@ -18,25 +18,23 @@ const getAllData = async ({ email, subDomain }) => {
     return data;
   }
   if (data === null) {
-    handleError(404, 'No User Found');
+    return handleError(404, 'No User Found');
   }
-  handleError();
+  return handleError();
 };
 
 //
-const bindSubdomain = async ({ email, subdomain }) =>
-  CardDataSchema.findOneAndUpdate(
-    { email },
-    { $set: { subDomain: subdomain } },
-  );
+const bindSubdomain = async ({ email, subdomain }) => CardDataSchema.findOneAndUpdate(
+  { email },
+  { $set: { subDomain: subdomain } },
+);
 
-const allDataToDb = async (email, data) =>
-  CardDataSchema.findOneAndUpdate(
-    { email },
-    {
-      $set: data,
-    },
-  );
+const allDataToDb = async (email, data) => CardDataSchema.findOneAndUpdate(
+  { email },
+  {
+    $set: data,
+  },
+);
 
 module.exports = {
   addUserToDb,

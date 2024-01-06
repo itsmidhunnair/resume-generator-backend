@@ -1,11 +1,13 @@
-/* eslint-disable implicit-arrow-linebreak */
 const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
+const morgan = require('morgan');
 const { connectMongo } = require('./src/config/mongo/mongo.config');
 const router = require('./src/routes');
 
 const app = express();
+
+app.use(morgan('dev'));
 
 const port = process.env.SERVER_PORT;
 
@@ -23,5 +25,6 @@ connectMongo();
 app.use('/', router);
 
 app.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.log(`🚀 Server Started on http://localhost:${port}`);
 });

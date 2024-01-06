@@ -5,7 +5,7 @@ const {
   allDataToDb,
   bindSubdomain,
 } = require('../services/cardData.services');
-const { filterObjects } = require('../helpers');
+// const { filterObjects } = require('../helpers');
 
 const cloudflareHeader = {
   'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ const addData = async (req, res) => {
       .status(401)
       .json({ success: false, data: { msg: 'Please login and try again!' } });
   } catch (error) {
-    res.status(400).json({ status: false, data: error });
+    return res.status(400).json({ status: false, data: error });
   }
 };
 
@@ -62,7 +62,7 @@ const validateDomain = async (req, res) => {
       .status(409)
       .json({ msg: 'Subdomain Unavailable', success: false });
   } catch (error) {
-    res
+    return res
       .status(500)
       .json({ msg: 'Internal Server Error', success: false, data: error });
   }

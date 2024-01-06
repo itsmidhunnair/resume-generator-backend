@@ -6,13 +6,12 @@ const router = express.Router();
 
 router.get(
   '/',
-  (req, res) =>
-    res.send(
-      "<marquee behavior='scroll'>MN's Resume Generator Server Active!</marquee>",
-    ),
+  (req, res) => res.send(
+    "<marquee behavior='scroll'>MN's Card Generator Server Active!</marquee>",
+  ),
   // eslint-disable-next-line function-paren-newline
 );
 router.use('/account', accountRouter);
-router.use('/resume', cardRouter);
+router.use('/card', cardRouter);
 
 module.exports = router;

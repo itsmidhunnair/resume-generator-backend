@@ -9,12 +9,12 @@ const {
 const { decodeFirebaseToken } = require('../middleware/accountMiddleware');
 const { filterUserAccountData } = require('../middleware/dataMiddleware');
 
-const resumeRouter = express.Router();
+const router = express.Router();
 
-resumeRouter.use('/', decodeFirebaseToken);
-resumeRouter.get('/getData', getUserData);
-resumeRouter.post('/addData', filterUserAccountData, addData);
-resumeRouter.post('/validate-domain', validateDomain);
-resumeRouter.post('/add-domain', addSubdomain);
+router.use('/', decodeFirebaseToken);
+router.get('/getData', getUserData);
+router.post('/addData', filterUserAccountData, addData);
+router.post('/validate-domain', validateDomain);
+router.post('/add-domain', addSubdomain);
 
-module.exports = resumeRouter;
+module.exports = router;

@@ -1,6 +1,7 @@
 const filterObjects = (object, keys) => {
-  keys.map((key) => delete object[key]);
-  return object;
+  const filteredObj = object;
+  keys.map((key) => delete filteredObj[key]);
+  return filteredObj;
 };
 
 module.exports = filterObjects;

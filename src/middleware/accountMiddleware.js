@@ -4,7 +4,9 @@ const decodeFirebaseToken = async (req, res, next) => {
   if (req.headers.token) {
     const token = req.headers?.token;
     try {
-      const { name, picture, email, exp } = await verifyToken(token);
+      const {
+        name, picture, email, exp,
+      } = await verifyToken(token);
       req.userData = {
         name,
         picture,
