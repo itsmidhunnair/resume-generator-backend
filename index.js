@@ -13,13 +13,7 @@ const port = process.env.SERVER_PORT;
 
 // These Cors Config is must for HTTP only
 const corsOptions = {
-  origin(origin, callback) {
-    if (!origin || origin.endsWith('.midhunnair.tech')) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: /\.midhunnair\.tech$/,
   credentials: true,
 };
 
