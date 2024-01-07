@@ -12,12 +12,13 @@ app.use(morgan('dev'));
 const port = process.env.SERVER_PORT;
 
 // These Cors Config is must for HTTP only
-const corsOptions = {
-  origin: /\.midhunnair\.tech$/,
-  credentials: true,
-};
+// const corsOptions = {
+//   origin: /\.midhunnair\.tech$/,
+//   credentials: true,
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 
 connectMongo();
