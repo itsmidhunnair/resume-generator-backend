@@ -12,8 +12,8 @@ const { filterUserAccountData } = require('../middleware/dataMiddleware');
 const router = express.Router();
 
 router.use('/', decodeFirebaseToken);
-router.get('/getData', getUserData);
-router.post('/addData', filterUserAccountData, addData);
+router.get('/get-data', getUserData);
+router.post('/add-data', filterUserAccountData, addData);
 router.post('/validate-domain', validateDomain);
 router.post('/add-domain', addSubdomain);
 
