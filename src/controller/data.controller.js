@@ -1,16 +1,14 @@
-const { default: axios } = require('axios');
-const { CLOUDFLARE_DNS_PATH } = require('../constant/cloudflareApiPath');
 const {
   getAllData,
   allDataToDb,
   bindSubdomain,
 } = require('../services/cardData.services');
+const {
+  addSubdomainToCloudflare,
+  getSubdomain,
+} = require('../services/cloudflare.services');
+const { addSubdomainToVercel } = require('../services/vercel.services');
 // const { filterObjects } = require('../helpers');
-
-const cloudflareHeader = {
-  'Content-Type': 'application/json',
-  Authorization: `Bearer ${process.env.CLOUDFLARE_API_KEY}`,
-};
 
 const getUserData = async (req, res) => {
   const { uid } = req;
@@ -45,13 +43,7 @@ const addData = async (req, res) => {
 const validateDomain = async (req, res) => {
   const { body } = req;
   try {
-    const { data } = await axios.get(CLOUDFLARE_DNS_PATH, {
-      params: {
-        type: 'CNAME',
-        name: `${body.subdomain}.${process.env.DOMAIN}`,
-      },
-      headers: cloudflareHeader,
-    });
+    const { data } = await getSubdomain(body.subdomain);
 
     if (data.result_info.count === 0) {
       return res
@@ -71,19 +63,11 @@ const validateDomain = async (req, res) => {
 const addSubdomain = async (req, res) => {
   const { body, uid } = req;
   try {
-    await axios.post(
-      CLOUDFLARE_DNS_PATH,
-      {
-        type: 'CNAME',
-        name: body.subdomain,
-        content: process.env.TARGET_DOMAIN,
-        ttl: 120,
-        proxied: false,
-      },
-      {
-        headers: cloudflareHeader,
-      },
-    );
+    // To add subdomain to cloudflare
+    await addSubdomainToCloudflare(body.subdomain);
+
+    // To add subdomain to Vercel
+    await addSubdomainToVercel(body.subDomain);
     const dbRes = await bindSubdomain({
       email: uid,
       subdomain: body.subdomain,
