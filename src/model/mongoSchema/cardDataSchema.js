@@ -17,6 +17,7 @@ const CardDataSchema = new mongoose.Schema({
   subDomain: {
     type: String,
     unique: true,
+    lowercase: true,
   },
   subDomainId: {
     type: String,

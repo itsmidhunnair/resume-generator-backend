@@ -43,7 +43,7 @@ const addData = async (req, res) => {
 const validateDomain = async (req, res) => {
   const { body } = req;
   try {
-    const { data } = await getSubdomain(body.subdomain);
+    const { data } = await getSubdomain(body.subdomain.toLowerCase());
 
     if (data.result_info.count === 0) {
       return res
@@ -64,15 +64,15 @@ const addSubdomain = async (req, res) => {
   const { body, uid } = req;
   try {
     // To add subdomain to cloudflare
-    const { data } = await addSubdomainToCloudflare(body.subdomain);
+    const { data } = await addSubdomainToCloudflare(body.subdomain.toLowerCase());
 
     // To add subdomain to Vercel
-    await addSubdomainToVercel(body.subdomain);
+    await addSubdomainToVercel(body.subdomain.toLowerCase());
 
     // Add subdomain to DB
     const dbRes = await bindSubdomain({
       email: uid,
-      subdomain: body.subdomain,
+      subdomain: body.subdomain.toLowerCase(),
       subDomainId: data.result.id,
     });
 
