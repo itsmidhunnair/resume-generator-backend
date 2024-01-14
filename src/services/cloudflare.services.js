@@ -34,7 +34,15 @@ const getSubdomain = async (subdomain) => axios.get(CLOUDFLARE_DNS_PATH, {
   headers: cloudflareHeader,
 });
 
+/**
+ * To delete the DNS record from cloudflare using the provided ID
+*/
+const deleteDomainFromCloudflare = async (subdomainId) => axios.delete(`${CLOUDFLARE_DNS_PATH}/${subdomainId}`, {
+  headers: cloudflareHeader,
+});
+
 module.exports = {
   addSubdomainToCloudflare,
   getSubdomain,
+  deleteDomainFromCloudflare,
 };

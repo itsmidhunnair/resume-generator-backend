@@ -64,14 +64,18 @@ const addSubdomain = async (req, res) => {
   const { body, uid } = req;
   try {
     // To add subdomain to cloudflare
-    await addSubdomainToCloudflare(body.subdomain);
+    const { data } = await addSubdomainToCloudflare(body.subdomain);
 
     // To add subdomain to Vercel
     await addSubdomainToVercel(body.subdomain);
+
+    // Add subdomain to DB
     const dbRes = await bindSubdomain({
       email: uid,
       subdomain: body.subdomain,
+      subDomainId: data.result.id,
     });
+
     res.status(201).json({
       msg: 'Subdomain Added',
       success: true,

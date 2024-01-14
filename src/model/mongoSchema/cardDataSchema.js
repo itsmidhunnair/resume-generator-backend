@@ -18,6 +18,10 @@ const CardDataSchema = new mongoose.Schema({
     type: String,
     unique: true,
   },
+  subDomainId: {
+    type: String,
+    unique: true,
+  },
   title: {
     type: String,
   },
